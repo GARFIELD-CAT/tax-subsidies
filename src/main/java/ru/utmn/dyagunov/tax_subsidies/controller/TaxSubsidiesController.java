@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.utmn.dyagunov.tax_subsidies.model.TaxSubsidy;
 import ru.utmn.dyagunov.tax_subsidies.service.TaxSubsidiesService;
 
-import java.util.Collection;
 
 @RestController
 @RequestMapping("/api/tax-subsidies")
@@ -15,13 +14,8 @@ public class TaxSubsidiesController {
     @Autowired
     TaxSubsidiesService taxSubsidiesService;
 
-    @GetMapping("/hello")
-    public String hello() {
-        return taxSubsidiesService.hello();
-    }
-
     @GetMapping
-    public Collection<TaxSubsidy> getAll() {
+    public Iterable<TaxSubsidy> getAll() {
         return taxSubsidiesService.getAll();
     }
 
