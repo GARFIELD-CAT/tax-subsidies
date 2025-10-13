@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.stream.StreamSupport;
 
 
-@Service
+//@Service
 public class TaxSubsidiesService {
     TaxSubsidyCsvRepository repository;
     TaxSubsidyJdbcRepository repository2;

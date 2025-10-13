@@ -5,14 +5,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.utmn.dyagunov.tax_subsidies.model.TaxSubsidy;
+import ru.utmn.dyagunov.tax_subsidies.service.TaxSubsidiesJpaService;
 import ru.utmn.dyagunov.tax_subsidies.service.TaxSubsidiesService;
 
 
 @RestController
 @RequestMapping("/api/tax-subsidies")
 public class TaxSubsidiesController {
-    @Autowired
-    TaxSubsidiesService taxSubsidiesService;
+//  private final TaxSubsidiesService taxSubsidiesService;
+    private final TaxSubsidiesJpaService taxSubsidiesService;
+
+    public TaxSubsidiesController(TaxSubsidiesJpaService taxSubsidiesService) {
+        this.taxSubsidiesService = taxSubsidiesService;
+    }
 
     @GetMapping
     public Iterable<TaxSubsidy> getAll() {
