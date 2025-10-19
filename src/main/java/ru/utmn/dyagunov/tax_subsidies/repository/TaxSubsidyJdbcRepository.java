@@ -1,5 +1,7 @@
 package ru.utmn.dyagunov.tax_subsidies.repository;
 
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
@@ -13,7 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@Repository
+@Repository()
+@Profile("JdbcEngine")
+@Primary
 public class TaxSubsidyJdbcRepository implements CommonRepository<TaxSubsidy> {
     private static final String SQL_INSERT = """
             insert into tax_subsidy

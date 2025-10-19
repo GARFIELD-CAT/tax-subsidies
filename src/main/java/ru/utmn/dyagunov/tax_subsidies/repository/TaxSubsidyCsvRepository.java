@@ -4,6 +4,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 import jakarta.annotation.PostConstruct;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import ru.utmn.dyagunov.tax_subsidies.model.TaxSubsidy;
 import ru.utmn.dyagunov.tax_subsidies.service.TaxSubsidiesService;
@@ -17,7 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 
 
-@Repository
+@Repository("CsvRepository")
+@Profile({"CsvEngine", "JdbcEngine", "JpaEngine"})
 public class TaxSubsidyCsvRepository implements CommonRepository<TaxSubsidy> {
     private final HashMap<String, TaxSubsidy> taxSubsidies = new HashMap<>();
 

@@ -1,9 +1,14 @@
 package ru.utmn.dyagunov.tax_subsidies.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.UUID;
 
 
 @Getter
@@ -13,7 +18,6 @@ import lombok.ToString;
 @Table(name = "tax_subsidy")
 public class TaxSubsidy {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     String id;
     @Column()
     String referenceArea;
@@ -29,4 +33,8 @@ public class TaxSubsidy {
     Float observationValue;
     @Column()
     String regimeName;
+
+    public TaxSubsidy() {
+        this.id = UUID.randomUUID().toString();
+    }
 }

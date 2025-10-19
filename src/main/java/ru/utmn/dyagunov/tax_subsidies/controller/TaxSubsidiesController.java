@@ -1,21 +1,18 @@
 package ru.utmn.dyagunov.tax_subsidies.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.utmn.dyagunov.tax_subsidies.model.TaxSubsidy;
-import ru.utmn.dyagunov.tax_subsidies.service.TaxSubsidiesJpaService;
-import ru.utmn.dyagunov.tax_subsidies.service.TaxSubsidiesService;
+import ru.utmn.dyagunov.tax_subsidies.service.TaxSubsidiesServiceInterface;
 
 
 @RestController
 @RequestMapping("/api/tax-subsidies")
 public class TaxSubsidiesController {
-//  private final TaxSubsidiesService taxSubsidiesService;
-    private final TaxSubsidiesJpaService taxSubsidiesService;
+    private final TaxSubsidiesServiceInterface taxSubsidiesService;
 
-    public TaxSubsidiesController(TaxSubsidiesJpaService taxSubsidiesService) {
+    public TaxSubsidiesController(TaxSubsidiesServiceInterface taxSubsidiesService) {
         this.taxSubsidiesService = taxSubsidiesService;
     }
 
@@ -26,14 +23,14 @@ public class TaxSubsidiesController {
 
     @GetMapping("/{id}")
     public TaxSubsidy getOne(
-        @PathVariable("id") String id
+            @PathVariable("id") String id
     ) {
         return taxSubsidiesService.getOne(id);
     }
 
     @PostMapping
     public ResponseEntity<TaxSubsidy> add(
-        @RequestBody TaxSubsidy taxSubsidy
+            @RequestBody TaxSubsidy taxSubsidy
     ) {
         TaxSubsidy entity = taxSubsidiesService.add(taxSubsidy);
 
@@ -42,7 +39,7 @@ public class TaxSubsidiesController {
 
     @PutMapping()
     public TaxSubsidy update(
-        @RequestBody TaxSubsidy taxSubsidy
+            @RequestBody TaxSubsidy taxSubsidy
     ) {
         return taxSubsidiesService.update(taxSubsidy);
     }
@@ -50,7 +47,7 @@ public class TaxSubsidiesController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(
-        @PathVariable("id") String id
+            @PathVariable("id") String id
     ) {
         taxSubsidiesService.delete(id);
     }
