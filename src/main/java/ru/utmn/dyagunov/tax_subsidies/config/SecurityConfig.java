@@ -2,6 +2,7 @@ package ru.utmn.dyagunov.tax_subsidies.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -10,12 +11,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import ru.utmn.dyagunov.tax_subsidies.security.JpaUserDetailsService;
+import ru.utmn.dyagunov.tax_subsidies.security.PersonRepository;
 
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
     @Bean
+    @Profile({"CsvEngine", "JdbcEngine"})
     public UserDetailsService userDetailsService(BCryptPasswordEncoder bCryptPasswordEncoder) {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(
@@ -30,6 +34,15 @@ public class SecurityConfig {
                         .build());
         return manager;
     }
+
+    @Bean
+    @Profile("JpaEngine")
+    public UserDetailsService JpaUserDetailsService(
+            PersonRepository personRepository,
+            BCryptPasswordEncoder bCryptPasswordEncoder) {
+        return new JpaUserDetailsService(personRepository, bCryptPasswordEncoder);
+    }
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

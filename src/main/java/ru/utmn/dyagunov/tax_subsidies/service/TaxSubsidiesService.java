@@ -13,7 +13,7 @@ import java.util.stream.StreamSupport;
 
 
 @Service
-@Profile({"CsvEngine", "JdbcEngine"})
+@Profile("JdbcEngine")
 public class TaxSubsidiesService implements TaxSubsidiesServiceInterface {
     CommonRepository<TaxSubsidy> repository;
 

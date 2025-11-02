@@ -14,7 +14,7 @@ import java.util.stream.StreamSupport;
 
 
 @Service
-@Profile({"CsvEngine", "JpaEngine"})
+@Profile("JpaEngine")
 public class TaxSubsidiesJpaService implements TaxSubsidiesServiceInterface {
     TaxSubsidyJpaRepository repository;
 
