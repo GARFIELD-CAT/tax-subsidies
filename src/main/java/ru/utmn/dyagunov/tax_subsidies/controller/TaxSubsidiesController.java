@@ -1,5 +1,6 @@
 package ru.utmn.dyagunov.tax_subsidies.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +17,13 @@ public class TaxSubsidiesController {
         this.taxSubsidiesService = taxSubsidiesService;
     }
 
+    @Operation(summary = "Возвращает все записи", description = "Может работать медленно из-за отсутствия пагинации")
     @GetMapping
     public Iterable<TaxSubsidy> getAll() {
         return taxSubsidiesService.getAll();
     }
 
+    @Operation(summary = "Возвращает одну запись по ее id")
     @GetMapping("/{id}")
     public TaxSubsidy getOne(
             @PathVariable("id") String id
@@ -28,6 +31,7 @@ public class TaxSubsidiesController {
         return taxSubsidiesService.getOne(id);
     }
 
+    @Operation(summary = "Создает новую запись")
     @PostMapping
     public ResponseEntity<TaxSubsidy> add(
             @RequestBody TaxSubsidy taxSubsidy
@@ -37,6 +41,7 @@ public class TaxSubsidiesController {
         return new ResponseEntity<>(entity, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Обновляет одну запись по ее id")
     @PutMapping()
     public TaxSubsidy update(
             @RequestBody TaxSubsidy taxSubsidy
@@ -44,6 +49,7 @@ public class TaxSubsidiesController {
         return taxSubsidiesService.update(taxSubsidy);
     }
 
+    @Operation(summary = "Удаляет одну запись по ее id")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(
