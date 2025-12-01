@@ -50,7 +50,6 @@ public class TaxSubsidiesJpaService implements TaxSubsidiesServiceInterface {
         );
     }
 
-    //    Нужен кеш, чтобы при ретрае случайно не сделать запись с теми же данными
     public TaxSubsidy add(TaxSubsidy taxSubsidy) {
         return repository.save(taxSubsidy);
     }
@@ -73,7 +72,7 @@ public class TaxSubsidiesJpaService implements TaxSubsidiesServiceInterface {
         repository.deleteById(id);
     }
 
-    public Float getAverageObservationValue(){
+    public Double getAverageObservationValue(){
         return repository.getAverageObservationValue();
     }
 }

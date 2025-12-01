@@ -7,5 +7,5 @@ import ru.utmn.dyagunov.tax_subsidies.model.TaxSubsidy;
 
 public interface TaxSubsidyJpaRepository extends JpaRepository<TaxSubsidy, String> {
     @Query("SELECT AVG(ts.observationValue) FROM TaxSubsidy ts")
-    Float getAverageObservationValue();
+    Double getAverageObservationValue();
 }

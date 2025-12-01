@@ -47,7 +47,7 @@ public class TaxSubsidiesService implements TaxSubsidiesServiceInterface {
 
     @Override
     public Page<TaxSubsidy> getAll(Pageable pageable) {
-        return null;
+        return repository.findAll(pageable);
     }
 
     public TaxSubsidy getOne(String id) {
@@ -59,7 +59,6 @@ public class TaxSubsidiesService implements TaxSubsidiesServiceInterface {
         return repository.findById(id);
     }
 
-    //    Нужен кеш, чтобы при ретрае случайно не сделать запись с теми же данными
     public TaxSubsidy add(TaxSubsidy taxSubsidy) {
         if (repository.exists(taxSubsidy.getId()))
             throw new ResponseStatusException(
@@ -91,10 +90,10 @@ public class TaxSubsidiesService implements TaxSubsidiesServiceInterface {
         repository.delete(id);
     }
 
-    public Float getAverageObservationValue() {
+    public Double getAverageObservationValue() {
         var targetStream = StreamSupport.stream(repository.findAll().spliterator(), false);
-        var average = targetStream.mapToDouble(TaxSubsidy::getObservationValue).average().orElse(Float.NaN);
+        var average = targetStream.mapToDouble(TaxSubsidy::getObservationValue).average().orElse(Double.NaN);
 
-        return (float) average;
+        return average;
     }
 }

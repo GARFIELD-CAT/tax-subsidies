@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import ru.utmn.dyagunov.tax_subsidies.model.TaxSubsidy;
@@ -28,7 +29,7 @@ public class TaxSubsidiesServiceTest {
 
     @Test
     void getAverageObservationValueImplementTest() {
-        Float result = service.getAverageObservationValue();
+        Double result = service.getAverageObservationValue();
 
         assertEquals(6.0, result, 0.00000001);
     }
@@ -83,7 +84,7 @@ public class TaxSubsidiesServiceTest {
             }
 
             @Override
-            public Iterable<TaxSubsidy> findAll(Pageable pageable) {
+            public Page<TaxSubsidy> findAll(Pageable pageable) {
                 return null;
             }
 

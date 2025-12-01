@@ -19,5 +19,5 @@ public interface TaxSubsidiesServiceInterface {
 
     void delete(String id);
 
-    Float getAverageObservationValue();
+    Double getAverageObservationValue();
 }

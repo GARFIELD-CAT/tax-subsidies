@@ -3,6 +3,7 @@ package ru.utmn.dyagunov.tax_subsidies.repository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,10 +12,9 @@ import org.springframework.stereotype.Repository;
 import ru.utmn.dyagunov.tax_subsidies.model.TaxSubsidy;
 
 import java.sql.ResultSet;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
+import static ru.utmn.dyagunov.tax_subsidies.utils.StringUtil.convertToSnakeCase;
 
 
 @Repository()
@@ -62,11 +62,24 @@ public class TaxSubsidyJdbcRepository implements CommonRepository<TaxSubsidy> {
     private static final String SQL_COUNT = "select count(*) from tax_subsidy";
 
     private final NamedParameterJdbcTemplate template;
+    private final RowMapper<TaxSubsidy> TaxSubsidyRowMapper = (ResultSet rs, int rowNum) -> {
+        TaxSubsidy taxSubsidy = new TaxSubsidy();
+        taxSubsidy.setId(rs.getString("id"));
+        taxSubsidy.setReferenceArea(rs.getString("reference_area"));
+        taxSubsidy.setMeasure(rs.getString("measure"));
+        taxSubsidy.setUnitOfMeasure(rs.getString("unit_of_measure"));
+        taxSubsidy.setRegime(rs.getString("regime"));
+        taxSubsidy.setTimePeriod(rs.getInt("time_period"));
+        taxSubsidy.setObservationValue(rs.getDouble("observation_value"));
+        taxSubsidy.setRegimeName(rs.getString("regime_name"));
+
+        return taxSubsidy;
+    };
+
 
     public TaxSubsidyJdbcRepository(NamedParameterJdbcTemplate template) {
         this.template = template;
     }
-
 
     @Override
     public TaxSubsidy save(TaxSubsidy domain) {
@@ -127,22 +140,31 @@ public class TaxSubsidyJdbcRepository implements CommonRepository<TaxSubsidy> {
 
     @Override
     public Page<TaxSubsidy> findAll(Pageable pageable) {
-        return null;
+        String sql = "SELECT * FROM tax_subsidy" + createOrderByClause(pageable) + " LIMIT :limit OFFSET :offset";
+        Map<String, Object> namedParameters = new HashMap<>();
+        namedParameters.put("limit", pageable.getPageSize());
+        namedParameters.put("offset", pageable.getOffset());
+
+        List<TaxSubsidy> taxSubsidies = template.query(sql, namedParameters, TaxSubsidyRowMapper);
+
+        long total = this.count();
+
+        return new PageImpl<>(taxSubsidies, pageable, total);
     }
 
-    private RowMapper<TaxSubsidy> TaxSubsidyRowMapper = (ResultSet rs, int rowNum) -> {
-        TaxSubsidy taxSubsidy = new TaxSubsidy();
-        taxSubsidy.setId(rs.getString("id"));
-        taxSubsidy.setReferenceArea(rs.getString("reference_area"));
-        taxSubsidy.setMeasure(rs.getString("measure"));
-        taxSubsidy.setUnitOfMeasure(rs.getString("unit_of_measure"));
-        taxSubsidy.setRegime(rs.getString("regime"));
-        taxSubsidy.setTimePeriod(rs.getInt("time_period"));
-        taxSubsidy.setObservationValue(rs.getDouble("observation_value"));
-        taxSubsidy.setRegimeName(rs.getString("regime_name"));
+    private String createOrderByClause(Pageable pageable) {
+        if (pageable.getSort().isEmpty()) {
+            return "";
+        }
 
-        return taxSubsidy;
-    };
+        StringBuilder orderBy = new StringBuilder(" ORDER BY ");
+        pageable.getSort().forEach(order -> {
+            var snakeCaseOrder = convertToSnakeCase(order.getProperty());
+            orderBy.append(snakeCaseOrder).append(" ").append(order.isAscending() ? "ASC" : "DESC");
+        });
+
+        return orderBy.toString();
+    }
 
     @Override
     public boolean exists(String id) {
