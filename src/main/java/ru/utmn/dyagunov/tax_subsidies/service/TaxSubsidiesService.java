@@ -23,6 +23,10 @@ public class TaxSubsidiesService implements TaxSubsidiesServiceInterface {
     ) {
         this.repository = repository;
 
+        init(repository);
+    }
+
+    void init(CommonRepository<TaxSubsidy> repository2) {
         if (repository2.getClass().equals(repository.getClass())) {
             return;
         }
@@ -33,6 +37,7 @@ public class TaxSubsidiesService implements TaxSubsidiesServiceInterface {
             repository.save(collection);
         }
     }
+
 
     public Iterable<TaxSubsidy> getAll() {
         return repository.findAll();
@@ -79,7 +84,7 @@ public class TaxSubsidiesService implements TaxSubsidiesServiceInterface {
         repository.delete(id);
     }
 
-    public Float getAverageObservationValue(){
+    public Float getAverageObservationValue() {
         var targetStream = StreamSupport.stream(repository.findAll().spliterator(), false);
         var average = targetStream.mapToDouble(TaxSubsidy::getObservationValue).average().orElse(Float.NaN);
 
