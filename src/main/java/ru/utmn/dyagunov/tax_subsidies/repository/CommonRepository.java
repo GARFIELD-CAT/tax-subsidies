@@ -1,5 +1,8 @@
 package ru.utmn.dyagunov.tax_subsidies.repository;
 
+import org.springframework.data.domain.Pageable;
+import ru.utmn.dyagunov.tax_subsidies.model.TaxSubsidy;
+
 import java.util.Collection;
 
 public interface CommonRepository<T> {
@@ -15,6 +18,8 @@ public interface CommonRepository<T> {
     T findById(String id);
 
     Iterable<T> findAll();
+
+    Iterable<T> findAll(Pageable pageable);
 
     boolean exists(String id);
 

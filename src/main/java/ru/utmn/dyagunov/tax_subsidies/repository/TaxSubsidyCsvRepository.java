@@ -5,6 +5,8 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import ru.utmn.dyagunov.tax_subsidies.model.TaxSubsidy;
 import ru.utmn.dyagunov.tax_subsidies.service.TaxSubsidiesService;
@@ -84,6 +86,11 @@ public class TaxSubsidyCsvRepository implements CommonRepository<TaxSubsidy> {
     @Override
     public Iterable<TaxSubsidy> findAll() {
         return taxSubsidies.values();
+    }
+
+    @Override
+    public Page<TaxSubsidy> findAll(Pageable pageable) {
+        return null;
     }
 
     @Override

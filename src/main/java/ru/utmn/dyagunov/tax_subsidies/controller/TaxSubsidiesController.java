@@ -1,11 +1,17 @@
 package ru.utmn.dyagunov.tax_subsidies.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.utmn.dyagunov.tax_subsidies.model.TaxSubsidy;
 import ru.utmn.dyagunov.tax_subsidies.service.TaxSubsidiesServiceInterface;
+
+import java.util.Objects;
 
 
 @RestController
@@ -19,8 +25,28 @@ public class TaxSubsidiesController {
 
     @Operation(summary = "Возвращает все записи", description = "Может работать медленно из-за отсутствия пагинации")
     @GetMapping
-    public Iterable<TaxSubsidy> getAll() {
-        return taxSubsidiesService.getAll();
+    public Iterable<TaxSubsidy> getAll(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "100") int size,
+        @RequestParam(defaultValue = "referenceArea") String sortBy,
+        @RequestParam(defaultValue = "asc") String sortDir
+    ) {
+        Sort sort;
+
+        if (sortDir.equalsIgnoreCase("asc")) {
+            sort = Sort.by(sortBy).ascending();
+        } else {
+            sort = Sort.by(sortBy).descending();
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<TaxSubsidy> currencyPage = taxSubsidiesService.getAll(pageable);
+
+        return currencyPage.getContent()
+                .parallelStream()
+                .filter(Objects::nonNull)
+                .toList();
     }
 
     @Operation(summary = "Возвращает одну запись по ее id")

@@ -2,6 +2,8 @@ package ru.utmn.dyagunov.tax_subsidies.repository;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
@@ -121,6 +123,11 @@ public class TaxSubsidyJdbcRepository implements CommonRepository<TaxSubsidy> {
     @Override
     public Iterable<TaxSubsidy> findAll() {
         return template.query(SQL_FIND_ALL, TaxSubsidyRowMapper);
+    }
+
+    @Override
+    public Page<TaxSubsidy> findAll(Pageable pageable) {
+        return null;
     }
 
     private RowMapper<TaxSubsidy> TaxSubsidyRowMapper = (ResultSet rs, int rowNum) -> {

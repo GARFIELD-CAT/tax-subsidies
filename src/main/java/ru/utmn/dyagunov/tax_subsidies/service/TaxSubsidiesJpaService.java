@@ -2,6 +2,8 @@ package ru.utmn.dyagunov.tax_subsidies.service;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -33,6 +35,11 @@ public class TaxSubsidiesJpaService implements TaxSubsidiesServiceInterface {
 
     public Iterable<TaxSubsidy> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public Page<TaxSubsidy> getAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public TaxSubsidy getOne(String id) {
