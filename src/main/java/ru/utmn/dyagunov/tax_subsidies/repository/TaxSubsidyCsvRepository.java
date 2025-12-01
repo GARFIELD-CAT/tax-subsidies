@@ -43,7 +43,7 @@ public class TaxSubsidyCsvRepository implements CommonRepository<TaxSubsidy> {
                 taxSubsidy.setUnitOfMeasure(line[2]);
                 taxSubsidy.setRegime(line[3]);
                 taxSubsidy.setTimePeriod(line[4] != null ? Integer.parseInt(line[4]) : null);
-                taxSubsidy.setObservationValue(line[5] != null ? Float.parseFloat(line[5]) : null);
+                taxSubsidy.setObservationValue(line[5] != null ? Double.parseDouble(line[5]) : null);
                 taxSubsidy.setRegimeName(line[6]);
 
                 taxSubsidies.put(taxSubsidy.getId(), taxSubsidy);

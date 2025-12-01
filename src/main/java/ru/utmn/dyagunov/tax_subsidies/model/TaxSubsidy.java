@@ -30,7 +30,7 @@ public class TaxSubsidy {
     @Column()
     Integer timePeriod;
     @Column()
-    Float observationValue;
+    Double observationValue;
     @Column()
     String regimeName;
 

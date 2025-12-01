@@ -73,10 +73,10 @@ public class TaxSubsidiesServiceTest {
             @Override
             public Iterable<TaxSubsidy> findAll() {
                 var e1 = new TaxSubsidy();
-                e1.setObservationValue(5.0f);
+                e1.setObservationValue(5.0);
 
                 var e2 = new TaxSubsidy();
-                e2.setObservationValue(7.0f);
+                e2.setObservationValue(7.0);
 
                 return List.of(e1, e2);
             }

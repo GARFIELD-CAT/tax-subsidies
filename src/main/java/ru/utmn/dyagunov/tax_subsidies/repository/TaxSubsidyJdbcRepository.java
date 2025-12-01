@@ -131,7 +131,7 @@ public class TaxSubsidyJdbcRepository implements CommonRepository<TaxSubsidy> {
         taxSubsidy.setUnitOfMeasure(rs.getString("unit_of_measure"));
         taxSubsidy.setRegime(rs.getString("regime"));
         taxSubsidy.setTimePeriod(rs.getInt("time_period"));
-        taxSubsidy.setObservationValue(rs.getFloat("observation_value"));
+        taxSubsidy.setObservationValue(rs.getDouble("observation_value"));
         taxSubsidy.setRegimeName(rs.getString("regime_name"));
 
         return taxSubsidy;
