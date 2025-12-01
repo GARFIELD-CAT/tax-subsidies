@@ -14,4 +14,6 @@ public interface TaxSubsidiesServiceInterface {
     TaxSubsidy update(TaxSubsidy taxSubsidy);
 
     void delete(String id);
+
+    Float getAverageObservationValue();
 }

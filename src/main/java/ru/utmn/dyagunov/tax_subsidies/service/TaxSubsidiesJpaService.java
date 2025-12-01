@@ -65,4 +65,8 @@ public class TaxSubsidiesJpaService implements TaxSubsidiesServiceInterface {
 
         repository.deleteById(id);
     }
+
+    public Float getAverageObservationValue(){
+        return repository.getAverageObservationValue();
+    }
 }

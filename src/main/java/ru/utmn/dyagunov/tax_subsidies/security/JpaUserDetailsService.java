@@ -18,12 +18,12 @@ public class JpaUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        final Person person = personRepository.findByEmailIgnoreCase(username);
+        final Person person = personRepository.findByNameIgnoreCase(username);
 
         if (person != null) {
             String password = encoder.encode(person.getPassword());
             return User
-                    .withUsername(person.getEmail())
+                    .withUsername(person.getName())
                     .accountLocked(!person.isEnabled())
                     .password(password)
                     .roles(person.getRole())

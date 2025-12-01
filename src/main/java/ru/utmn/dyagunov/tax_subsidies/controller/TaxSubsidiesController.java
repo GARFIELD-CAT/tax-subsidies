@@ -57,4 +57,10 @@ public class TaxSubsidiesController {
     ) {
         taxSubsidiesService.delete(id);
     }
+
+    @Operation(summary = "Возвращает среднее значение налоговой субсидии")
+    @GetMapping("/get-avg-observation-value")
+    public Float getAverageObservationValue() {
+        return taxSubsidiesService.getAverageObservationValue();
+    }
 }

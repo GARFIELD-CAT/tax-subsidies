@@ -13,7 +13,7 @@ import java.util.stream.StreamSupport;
 
 
 @Service
-@Profile("JdbcEngine")
+@Profile({"JdbcEngine", "CsvEngine"})
 public class TaxSubsidiesService implements TaxSubsidiesServiceInterface {
     CommonRepository<TaxSubsidy> repository;
 
@@ -77,5 +77,12 @@ public class TaxSubsidiesService implements TaxSubsidiesServiceInterface {
             );
 
         repository.delete(id);
+    }
+
+    public Float getAverageObservationValue(){
+        var targetStream = StreamSupport.stream(repository.findAll().spliterator(), false);
+        var average = targetStream.mapToDouble(TaxSubsidy::getObservationValue).average().orElse(Float.NaN);
+
+        return (float) average;
     }
 }
