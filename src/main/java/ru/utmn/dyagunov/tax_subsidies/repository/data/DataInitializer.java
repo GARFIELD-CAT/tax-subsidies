@@ -1,7 +1,8 @@
 package ru.utmn.dyagunov.tax_subsidies.repository.data;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import ru.utmn.dyagunov.tax_subsidies.security.Person;
 import ru.utmn.dyagunov.tax_subsidies.security.PersonRepository;
@@ -10,13 +11,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 @Component
-public class DataInitializer implements CommandLineRunner {
+@Profile("JpaEngine")
+public class DataInitializer {
 
     @Autowired
     private PersonRepository personRepository;
 
-    @Override
-    public void run(String... args) throws Exception {
+    @PostConstruct
+    public void createInitialPersons() {
         if (personRepository.count() == 0) {
             Person person1 = new Person(
                     "admin@gmail.com",

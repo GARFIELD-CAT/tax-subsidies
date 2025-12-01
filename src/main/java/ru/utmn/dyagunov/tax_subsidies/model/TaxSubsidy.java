@@ -37,4 +37,17 @@ public class TaxSubsidy {
     public TaxSubsidy() {
         this.id = UUID.randomUUID().toString();
     }
+
+    public int compareByField(String fieldName, TaxSubsidy other) {
+        return switch (fieldName) {
+            case "referenceArea" -> this.referenceArea.compareTo(other.referenceArea);
+            case "measure" -> this.measure.compareTo(other.measure);
+            case "unitOfMeasure" -> this.unitOfMeasure.compareTo(other.unitOfMeasure);
+            case "regime" -> this.regime.compareTo(other.regime);
+            case "timePeriod" -> this.timePeriod.compareTo(other.timePeriod);
+            case "observationValue" -> this.observationValue.compareTo(other.observationValue);
+            case "regimeName" -> this.regimeName.compareTo(other.regimeName);
+            default -> throw new IllegalArgumentException("Unknown field: " + fieldName);
+        };
+    }
 }

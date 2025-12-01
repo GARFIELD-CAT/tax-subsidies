@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.utmn.dyagunov.tax_subsidies.model.TaxSubsidy;
 import ru.utmn.dyagunov.tax_subsidies.repository.CommonRepository;
-
 import java.util.Collection;
 import java.util.stream.StreamSupport;
 
@@ -25,7 +24,7 @@ public class TaxSubsidiesService implements TaxSubsidiesServiceInterface {
     ) {
         this.repository = repository;
 
-        init(repository);
+        init(repository2);
     }
 
     void init(CommonRepository<TaxSubsidy> repository2) {

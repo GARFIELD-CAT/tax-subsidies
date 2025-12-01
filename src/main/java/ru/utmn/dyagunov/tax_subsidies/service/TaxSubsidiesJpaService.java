@@ -26,6 +26,14 @@ public class TaxSubsidiesJpaService implements TaxSubsidiesServiceInterface {
     ) {
         this.repository = repository;
 
+        init(repository2);
+    }
+
+    void init(CommonRepository<TaxSubsidy> repository2) {
+        if (repository2.getClass().equals(repository.getClass())) {
+            return;
+        }
+
         if (repository.count() == 0 && repository2.count() > 0) {
             Iterable<TaxSubsidy> all = repository2.findAll();
             Collection<TaxSubsidy> collection = StreamSupport.stream(all.spliterator(), false).toList();

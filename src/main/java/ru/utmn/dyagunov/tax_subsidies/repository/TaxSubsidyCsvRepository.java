@@ -6,7 +6,9 @@ import com.opencsv.exceptions.CsvException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import ru.utmn.dyagunov.tax_subsidies.model.TaxSubsidy;
 import ru.utmn.dyagunov.tax_subsidies.service.TaxSubsidiesService;
@@ -15,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -90,7 +93,23 @@ public class TaxSubsidyCsvRepository implements CommonRepository<TaxSubsidy> {
 
     @Override
     public Page<TaxSubsidy> findAll(Pageable pageable) {
-        return null;
+        ArrayList<TaxSubsidy> data = new ArrayList<>(taxSubsidies.values());
+
+        data.sort((o1, o2) -> {
+            for (Sort.Order order : pageable.getSort()) {
+                int comparison = o1.compareByField(order.getProperty(), o2);
+                if (comparison != 0) {
+                    return order.isAscending() ? comparison : -comparison;
+                }
+            }
+            return 0;
+        });
+
+        int start = Math.toIntExact(pageable.getOffset());
+        int end = Math.min(start + pageable.getPageSize(), taxSubsidies.size());
+        List<TaxSubsidy> paginatedList = data.subList(start, end);
+
+        return new PageImpl<>(paginatedList, pageable, taxSubsidies.size());
     }
 
     @Override

@@ -2,7 +2,6 @@ package ru.utmn.dyagunov.tax_subsidies.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import ru.utmn.dyagunov.tax_subsidies.model.TaxSubsidy;
 
 import java.util.Collection;
 

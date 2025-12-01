@@ -23,7 +23,7 @@ public class TaxSubsidiesController {
         this.taxSubsidiesService = taxSubsidiesService;
     }
 
-    @Operation(summary = "Возвращает все записи", description = "Может работать медленно из-за отсутствия пагинации")
+    @Operation(summary = "Возвращает все записи", description = "Есть пагинация и сортировка")
     @GetMapping
     public Iterable<TaxSubsidy> getAll(
         @RequestParam(defaultValue = "0") int page,
