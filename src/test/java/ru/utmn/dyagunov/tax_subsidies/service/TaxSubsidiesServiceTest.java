@@ -97,6 +97,11 @@ public class TaxSubsidiesServiceTest {
             public long count() {
                 return 0;
             }
+
+            @Override
+            public Iterable<TaxSubsidy> findByFilter(String referenceArea, String measure, String unitOfMeasure, Integer timePeriod) {
+                return null;
+            }
         }
     }
 }

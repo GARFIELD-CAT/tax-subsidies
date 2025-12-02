@@ -95,4 +95,8 @@ public class TaxSubsidiesService implements TaxSubsidiesServiceInterface {
 
         return average;
     }
+
+    public Iterable<TaxSubsidy> findByFilter(String referenceArea, String measure, String unitOfMeasure, Integer timePeriod) {
+        return repository.findByFilter(referenceArea, measure, unitOfMeasure, timePeriod);
+    }
 }

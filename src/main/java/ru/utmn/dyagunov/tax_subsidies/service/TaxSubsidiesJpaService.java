@@ -83,4 +83,8 @@ public class TaxSubsidiesJpaService implements TaxSubsidiesServiceInterface {
     public Double getAverageObservationValue(){
         return repository.getAverageObservationValue();
     }
+
+    public Iterable<TaxSubsidy> findByFilter(String referenceArea, String measure, String unitOfMeasure, Integer timePeriod) {
+        return repository.findByFilter(referenceArea, measure, unitOfMeasure, timePeriod);
+    }
 }

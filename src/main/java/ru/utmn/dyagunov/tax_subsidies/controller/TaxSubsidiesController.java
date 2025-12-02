@@ -25,12 +25,20 @@ public class TaxSubsidiesController {
 
     @Operation(summary = "Возвращает все записи", description = "Есть пагинация и сортировка")
     @GetMapping
-    public Iterable<TaxSubsidy> getAll(
+    public ResponseEntity<Object> getAll(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "100") int size,
         @RequestParam(defaultValue = "referenceArea") String sortBy,
         @RequestParam(defaultValue = "asc") String sortDir
     ) {
+        if (page < 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Значение page не может быть отрицательным.");
+        } else if (size <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Значение size не может быть меньше или равно 0.");
+        }
+
         Sort sort;
 
         if (sortDir.equalsIgnoreCase("asc")) {
@@ -43,10 +51,12 @@ public class TaxSubsidiesController {
 
         Page<TaxSubsidy> taxSubsidyPage = taxSubsidiesService.getAll(pageable);
 
-        return taxSubsidyPage.getContent()
-                .parallelStream()
-                .filter(Objects::nonNull)
-                .toList();
+        return ResponseEntity.ok(
+                taxSubsidyPage.getContent()
+                    .parallelStream()
+                    .filter(Objects::nonNull)
+                    .toList()
+        );
     }
 
     @Operation(summary = "Возвращает одну запись по ее id")
@@ -88,5 +98,21 @@ public class TaxSubsidiesController {
     @GetMapping("/get-avg-observation-value")
     public Double getAverageObservationValue() {
         return taxSubsidiesService.getAverageObservationValue();
+    }
+
+    @Operation(summary = "Возвращает записи с фильтрацией по переданным полям")
+    @GetMapping("/find-by-filter")
+    public ResponseEntity<Object> findByFilter(
+            @RequestParam(required = false) String referenceArea,
+            @RequestParam(required = false) String measure,
+            @RequestParam(required = false) String unitOfMeasure,
+            @RequestParam(required = false) Integer timePeriod
+    ) {
+        if (referenceArea == null && measure == null && unitOfMeasure == null && timePeriod == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Как минимум 1 параметр должен быть указан.");
+        }
+
+        return ResponseEntity.ok(taxSubsidiesService.findByFilter(referenceArea, measure, unitOfMeasure, timePeriod));
     }
 }

@@ -121,5 +121,10 @@ public class TaxSubsidyCsvRepository implements CommonRepository<TaxSubsidy> {
     public long count() {
         return taxSubsidies.size();
     }
+
+    @Override
+    public Iterable<TaxSubsidy> findByFilter(String referenceArea, String measure, String unitOfMeasure, Integer timePeriod) {
+        return null;
+    }
 }
 

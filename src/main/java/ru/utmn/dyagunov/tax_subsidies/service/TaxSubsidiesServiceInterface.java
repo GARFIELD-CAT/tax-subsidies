@@ -20,4 +20,6 @@ public interface TaxSubsidiesServiceInterface {
     void delete(String id);
 
     Double getAverageObservationValue();
+
+    Iterable<TaxSubsidy> findByFilter(String referenceArea, String measure, String unitOfMeasure, Integer timePeriod);
 }

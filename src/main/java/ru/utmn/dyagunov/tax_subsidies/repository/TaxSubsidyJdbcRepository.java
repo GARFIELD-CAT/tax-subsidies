@@ -108,7 +108,6 @@ public class TaxSubsidyJdbcRepository implements CommonRepository<TaxSubsidy> {
 
     @Override
     public Iterable<TaxSubsidy> save(Collection<TaxSubsidy> domains) {
-        // ToDo: партиционировать domains по 100-1_000
         template.batchUpdate(SQL_INSERT, SqlParameterSourceUtils.createBatch(domains));
 
         return findAll();
@@ -176,5 +175,10 @@ public class TaxSubsidyJdbcRepository implements CommonRepository<TaxSubsidy> {
     @Override
     public long count() {
         return template.queryForObject(SQL_COUNT, Collections.emptyMap(), Long.class);
+    }
+
+    @Override
+    public Iterable<TaxSubsidy> findByFilter(String referenceArea, String measure, String unitOfMeasure, Integer timePeriod) {
+        return null;
     }
 }
