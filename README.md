@@ -15,13 +15,19 @@
    cd tax-subsidies
    ```
 
-3. **Запустите проект**:
+3. **Разверните базу данных Postgres**:
+   Убедитесь, что у вас установлен Docker и Docker Compose. Запустите команду:
+   ```bash
+   docker-compose up -d
+   ```
+
+4. **Запустите проект**:
    Убедитесь, что у вас установлен [Maven](https://maven.apache.org/). Запустите проект командой:
    ```bash
    mvn spring-boot:run
    ```
 
-4. **Swagger UI будет доступен по URL**:
+5. **Swagger UI будет доступен по URL**:
    ```
    http://localhost:8080/swagger-ui/index.html
    ```
@@ -35,18 +41,19 @@
 - Получение среднего значения налоговой субсидии
 - Реализована работа с spring профилями. Возможные варианты: `CsvEngine`, `JdbcEngine`, `JpaEngine`
 - Реализована защита api с помощью авторизации. Для тестирования доступны пользователи:
+
  ```json
 [
-    {
-        "name": "user",
-        "password": "userPass",
-        "role":  "USER"
-    },
-        {
-        "name": "admin",
-        "password": "adminPass",
-        "role":  "ADMIN"
-    }
+  {
+    "name": "user",
+    "password": "userPass",
+    "role": "USER"
+  },
+  {
+    "name": "admin",
+    "password": "adminPass",
+    "role": "ADMIN"
+  }
 ]
 ```
 
