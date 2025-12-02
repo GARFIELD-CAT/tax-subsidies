@@ -41,9 +41,9 @@ public class TaxSubsidiesController {
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        Page<TaxSubsidy> currencyPage = taxSubsidiesService.getAll(pageable);
+        Page<TaxSubsidy> taxSubsidyPage = taxSubsidiesService.getAll(pageable);
 
-        return currencyPage.getContent()
+        return taxSubsidyPage.getContent()
                 .parallelStream()
                 .filter(Objects::nonNull)
                 .toList();
